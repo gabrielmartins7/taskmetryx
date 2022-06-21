@@ -18,10 +18,13 @@ class CompanyController {
     }
 
     def todos() {
-        def response = Company.getAll().annotate
-        def segment = Segment.getAll()
-        /*response.setContentType("application/json")*/
-        println(segment as JSON)
+        def response = Company.getAll().collect{
+            element -> return [
+                    id: element.id,
+                    name: element.name,
+                    segment: element.segment.name
+            ]
+        }
         render status: 200, ContentType: 'application/json', text: response as JSON
     }
 
